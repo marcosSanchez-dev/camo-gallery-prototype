@@ -1,16 +1,14 @@
 export default function Navbar() {
   return (
-    <nav className="bg-white shadow">
-      <div className="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Camo Gallery</h1>
-        <div className="space-x-4">
-          <button className="text-sm font-medium hover:underline">
-            Gallery
-          </button>
-          <button className="text-sm font-medium hover:underline">
-            Upload
-          </button>
-        </div>
+    <nav className="flex justify-between items-center px-6 py-4 bg-white/10 backdrop-blur border-b border-white/10 text-white">
+      <h1 className="text-2xl font-bold">Camo Gallery</h1>
+      <div className="space-x-4">
+        <a href="#" className="hover:underline">
+          Gallery
+        </a>
+        <a href="#" className="hover:underline">
+          Upload
+        </a>
       </div>
     </nav>
   );

@@ -31,7 +31,7 @@ export default function UploadForm({ onSubmit }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-6 shadow rounded space-y-4"
+      className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl p-6 space-y-6 text-white"
     >
       <h2 className="text-xl font-semibold">Upload Your Before / After</h2>
 
@@ -44,7 +44,7 @@ export default function UploadForm({ onSubmit }) {
           value={social}
           onChange={(e) => setSocial(e.target.value)}
           placeholder="@yourhandle"
-          className="w-full border px-3 py-2 rounded"
+          className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg placeholder-white/70 focus:outline-none"
         />
       </div>
 
@@ -75,7 +75,7 @@ export default function UploadForm({ onSubmit }) {
 
       <button
         type="submit"
-        className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+        className="bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold px-6 py-2 rounded-full shadow hover:opacity-90 transition"
       >
         Submit
       </button>
