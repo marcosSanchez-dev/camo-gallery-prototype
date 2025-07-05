@@ -1,67 +1,109 @@
 # 🖼️ Camo Gallery Prototype
 
-This is a take-home technical assessment for Camo, focused on building a simple yet effective before/after gallery for community-submitted images.
+This is a take-home technical assessment for **Camo**, focused on building a simple and engaging **Before/After community gallery**.
 
-Users can upload two images (before & after), add a social media handle, and preview the result as part of a visual gallery.
+Users can explore visual transformations shared by others, upload their own comparisons, and prepare content for sharing on social platforms.
+
+---
+
+## 🚀 User Journey: 3-Phase Experience
+
+This prototype is designed around a simple but powerful 3-phase user experience:
+
+### 👁️ Discovery Phase
+- Browse a responsive grid of before/after cards
+- Filter content by **Popular**, **Recent**, or **Top Rated**
+- Preview a sample **slider comparison**
+
+### ☁️ Creation Phase
+- Upload two images (Before + After)
+- Add an optional **social handle** (e.g., `@yourname`)
+- Toggle: “Apply Camo Auto-Enhance Filters” (mock UI only)
+- Click “Compare Now” to proceed
+
+### 📣 Engagement Phase
+- View the result with an interactive slider (coming soon)
+- Options to **export** or **share as Instagram Story**
+- (Planned) Show visual **improvement metrics** like “87% Improvement”
+- Allow users to upload again or return to gallery
+
+You can view the wireframe behind this logic here:  
+📎 [`docs/user-flow.png`](./docs/user-flow.png)
 
 ---
 
 ## ⚙️ Stack Used
 
-- **React** (via Vite) – fast modern frontend tooling
-- **TailwindCSS** – responsive, utility-first styling
-- **JavaScript + Hooks** – clean state management
-- **In-memory state** – no backend or localStorage for this prototype
+- **React** (via Vite) – fast, modern frontend tooling
+- **TailwindCSS** – utility-first responsive styling
+- **JavaScript + Hooks** – clean, modular state management
+- **In-memory state** – no backend or storage layer for this prototype
 
 ---
 
 ## ✨ Features Implemented
 
-- Dual image upload with local preview
-- Social media handle input (`@yourhandle`)
-- Dynamic gallery: new submissions appear instantly
-- Clean, responsive layout
-- Code structured for maintainability
+- Upload form with **local preview** of both images
+- Optional social handle field (`@yourhandle`)
+- Dynamic **community gallery**: new submissions appear instantly
+- Modular structure: `Navbar`, `UploadForm`, `Gallery`, `GalleryCard`
+- Fully responsive layout
 
 ---
 
 ## 🧠 Design Decisions
 
-- Used **`URL.createObjectURL()`** to generate fast in-memory previews
-- Separated components for clarity: `Navbar`, `UploadForm`, `Gallery`, `GalleryCard`
-- Used Tailwind utility classes to keep styles scalable and concise
-- No routing or backend calls to keep the prototype lightweight
+- **UX-driven flow**: Designed around a natural “discover → create → share” loop
+- **Instant preview**: Uses `URL.createObjectURL()` for in-memory image rendering
+- **Separation of concerns**: All UI elements broken into focused components
+- **Lightweight by design**: No routing, no backend — fast iteration & testing
 
 ---
 
-## 🔍 How Would I Implement Comparison?
+## 🔍 Future of the Comparison UI
 
-While the current version displays both images side by side, here are 3 ideas to make the comparison more engaging:
+Currently the app shows side-by-side images. These are the next steps:
 
-1. **Slider Comparison UI**  
-   Use a library like [`react-compare-slider`] or a custom solution with CSS and drag events.
+1. **Slider Comparison** (planned):  
+   Integrate [`react-compare-slider`](https://github.com/nerdyman/react-compare-slider) for real-time image sliding
 
-2. **On-hover Crossfade**  
-   One image overlays the other with `opacity` animation on hover for a simple visual difference.
+2. **On-hover Reveal** (idea):  
+   One image fades into another with hover-based opacity control
 
-3. **Animated Flip**  
-   On click, the image flips like a card to reveal the “after” photo.
-
-Each option would enhance the storytelling aspect and highlight the visual transformation.
+3. **Flip Animation** (idea):  
+   A card-style flip to reveal “After” image from “Before”
 
 ---
 
-## 🤝 Integration Ideas with Camo Studio
+## 🤝 Camo Studio Integration Ideas
 
-- Allow users to **export their before/after as a shareable image** (`canvas` export or `html2canvas`)
-- Integrate with **Camo Studio UI** via iframe or embedded webview
-- Enable **deep linking from user profiles or devices**
-- Add **“Submit from Camo”** directly within the desktop app
+- Add button: **“Send from Camo Studio”** to upload directly from the app
+- Allow exporting of comparisons as high-res images (via `html2canvas`)
+- Embed this gallery into the Camo desktop app (via webview or iframe)
+- Social share automation with pre-filled story layouts or IG story mockups
 
 ---
 
-## 📌 Roadmap Suggestions
+## 🛣️ Roadmap Suggestions
 
-- [ ] Add gallery sorting (latest, trending, best-rated)
-- [ ] Allow users to vote on images
-- [ ] Export compariso
+- [ ] Add filter/sort options (Latest, Popular, Top Rated)
+- [ ] Voting or likes on each comparison card
+- [ ] “Before/After” slider component
+- [ ] Export comparison to image or Instagram-ready layout
+- [ ] Store images in a backend (Firebase/Supabase) for persistence
+- [ ] Allow multi-tag submission for gallery categorization
+
+---
+
+## 📂 Repo Structure
+
+```bash
+src/
+├── components/
+│   ├── Navbar.jsx
+│   ├── UploadForm.jsx
+│   ├── Gallery.jsx
+│   └── GalleryCard.jsx
+├── App.jsx
+├── main.jsx
+└── index.css
