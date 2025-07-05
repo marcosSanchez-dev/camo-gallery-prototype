@@ -1,11 +1,14 @@
-export default function GalleryCard() {
+export default function GalleryCard({ data }) {
+  const { before, after, social } = data;
+
   return (
     <div className="bg-white shadow rounded overflow-hidden">
-      <div className="aspect-video bg-gray-300 flex items-center justify-center text-sm text-gray-500">
-        Before / After
+      <div className="grid grid-cols-2 gap-0">
+        <img src={before} alt="Before" className="aspect-video object-cover" />
+        <img src={after} alt="After" className="aspect-video object-cover" />
       </div>
       <div className="p-4">
-        <p className="text-sm font-medium">@mockuser</p>
+        <p className="text-sm font-medium">{social}</p>
       </div>
     </div>
   );
