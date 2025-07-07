@@ -2,12 +2,13 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Gallery from "./components/Gallery";
 import UploadForm from "./components/UploadForm";
+import EngagementPanel from "./components/EngagementPanel"; // 👈 nueva línea
 
 function App() {
   const [submissions, setSubmissions] = useState([]);
 
   const handleNewSubmission = (data) => {
-    setSubmissions([data, ...submissions]); // añade al principio
+    setSubmissions([data, ...submissions]);
   };
 
   return (
@@ -16,9 +17,9 @@ function App() {
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-12">
         <UploadForm onSubmit={handleNewSubmission} />
         <Gallery items={submissions} />
+        <EngagementPanel /> {/* 👈 nuevo panel agregado aquí */}
       </main>
     </div>
   );
 }
-
 export default App;
