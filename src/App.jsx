@@ -2,10 +2,11 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Gallery from "./components/Gallery";
 import UploadForm from "./components/UploadForm";
-import EngagementPanel from "./components/EngagementPanel"; // 👈 nueva línea
+import EngagementPanel from "./components/EngagementPanel";
 
 function App() {
   const [submissions, setSubmissions] = useState([]);
+  const [selectedForCompare, setSelectedForCompare] = useState(null);
 
   const handleNewSubmission = (data) => {
     setSubmissions([data, ...submissions]);
@@ -16,12 +17,8 @@ function App() {
       <Navbar />
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-12">
         <UploadForm onSubmit={handleNewSubmission} />
-        <Gallery items={submissions} />
-        <EngagementPanel
-          before={submissions[0]?.before}
-          after={submissions[0]?.after}
-        />{" "}
-        {/* 👈 nuevo panel agregado aquí */}
+        <Gallery items={submissions} onSelect={setSelectedForCompare} />
+        <EngagementPanel entry={selectedForCompare} />
       </main>
     </div>
   );

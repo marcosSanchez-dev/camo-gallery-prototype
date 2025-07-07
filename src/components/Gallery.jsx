@@ -1,6 +1,6 @@
 import GalleryCard from "./GalleryCard";
 
-export default function Gallery({ items = [] }) {
+export default function Gallery({ items = [], onSelect }) {
   return (
     <section className="relative rounded-2xl backdrop-blur-md bg-white/5 border border-white/10 shadow-xl p-6">
       <div className="flex justify-between items-center mb-6">
@@ -27,7 +27,11 @@ export default function Gallery({ items = [] }) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item, index) => (
-            <GalleryCard key={index} data={item} />
+            <GalleryCard
+              key={index}
+              data={item}
+              onClick={() => onSelect(item)}
+            />
           ))}
         </div>
       )}

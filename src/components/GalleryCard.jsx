@@ -1,8 +1,11 @@
-export default function GalleryCard({ data }) {
+export default function GalleryCard({ data, onClick }) {
   const { before, after, social } = data;
 
   return (
-    <div className="relative group overflow-hidden rounded-xl shadow-md border border-white/10 backdrop-blur-sm bg-white/5 hover:scale-[1.02] transition-transform">
+    <div
+      className="relative group overflow-hidden rounded-xl shadow-md border border-white/10 backdrop-blur-sm bg-white/5 hover:scale-[1.02] transition-transform cursor-pointer"
+      onClick={() => onClick?.(data)} // <- activamos selección si se provee la función
+    >
       <div className="relative">
         <img
           src={before}

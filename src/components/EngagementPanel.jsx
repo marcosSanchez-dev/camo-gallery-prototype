@@ -1,12 +1,25 @@
 import { useRef } from "react";
-import { FaInstagram, FaTiktok } from "react-icons/fa";
+import { FaInstagram, FaTiktok, FaShareAlt } from "react-icons/fa";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import CompareSlider from "./CompareSlider";
 
-export default function EngagementPanel({ before, after }) {
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  TelegramShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+  TelegramIcon,
+} from "react-share";
+
+export default function EngagementPanel({ entry }) {
   const canvasRef = useRef(null);
 
   const handleDownload = () => {
+    if (!entry?.before || !entry?.after) return;
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
@@ -16,8 +29,8 @@ export default function EngagementPanel({ before, after }) {
     beforeImg.crossOrigin = "anonymous";
     afterImg.crossOrigin = "anonymous";
 
-    beforeImg.src = before;
-    afterImg.src = after;
+    beforeImg.src = entry.before;
+    afterImg.src = entry.after;
 
     beforeImg.onload = () => {
       afterImg.onload = () => {
@@ -44,38 +57,108 @@ export default function EngagementPanel({ before, after }) {
         CAMO COMMUNITY GALLERY
       </h2>
 
-      <CompareSlider before="public\before.jpg" after="public\after.jpg" />
+      {entry?.before && entry?.after ? (
+        <>
+          <CompareSlider
+            before={entry.before}
+            after={entry.after}
+            key={entry.before + entry.after}
+          />
 
-      <div className="flex justify-center gap-4 mb-6">
-        <button
-          onClick={handleDownload}
-          className="bg-white/10 hover:bg-white/20 p-3 rounded-full"
-          title="Download Comparison"
-        >
-          <ArrowDownTrayIcon className="h-6 w-6" />
-        </button>
-        <a
-          href="https://www.instagram.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-white/10 hover:bg-white/20 p-3 rounded-full"
-          title="Share on Instagram"
-        >
-          <FaInstagram className="h-6 w-6" />
-        </a>
-        <a
-          href="https://www.tiktok.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-white/10 hover:bg-white/20 p-3 rounded-full"
-          title="Share on TikTok"
-        >
-          <FaTiktok className="h-6 w-6" />
-        </a>
-      </div>
+          <div className="flex justify-center flex-wrap gap-4 mb-6">
+            {/* 📥 Download */}
+            <button
+              onClick={handleDownload}
+              className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all hover:scale-105"
+              title="Download Comparison"
+            >
+              <ArrowDownTrayIcon className="h-6 w-6" />
+            </button>
 
-      <p className="text-sm text-white/60">💎 Lighting +92%</p>
-      <p className="text-sm text-white/60">↻ Drag to compare</p>
+            {/* 📤 Native share (mobile) */}
+            <button
+              onClick={() => {
+                if (navigator.share) {
+                  navigator
+                    .share({
+                      title: "Camo Gallery",
+                      text: "Check out this before/after transformation!",
+                      url: window.location.href,
+                    })
+                    .catch((err) => console.error("Share failed:", err));
+                } else {
+                  alert("Sharing not supported on this device.");
+                }
+              }}
+              className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all hover:scale-105"
+              title="Share this"
+            >
+              <FaShareAlt className="h-6 w-6" />
+            </button>
+
+            {/* 🟪 Instagram */}
+            <a
+              href="https://www.instagram.com/camo.studio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all hover:scale-105"
+              title="Visit us on Instagram"
+            >
+              <FaInstagram className="h-6 w-6" />
+            </a>
+
+            {/* 🖤 TikTok */}
+            <a
+              href="https://www.tiktok.com/@camo.studio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all hover:scale-105"
+              title="Visit us on TikTok"
+            >
+              <FaTiktok className="h-6 w-6" />
+            </a>
+
+            {/* 🐦 Twitter */}
+            <TwitterShareButton
+              url={window.location.href}
+              title="Check this out from the CAMO Gallery!"
+            >
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
+
+            {/* 📘 Facebook */}
+            <FacebookShareButton
+              url={window.location.href}
+              quote="Awesome before/after from CAMO Gallery!"
+            >
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+
+            {/* 📱 WhatsApp */}
+            <WhatsappShareButton
+              url={window.location.href}
+              title="Check this out from CAMO!"
+            >
+              <WhatsappIcon size={32} round />
+            </WhatsappShareButton>
+
+            {/* ✈️ Telegram */}
+            <TelegramShareButton
+              url={window.location.href}
+              title="Before/after from CAMO Gallery!"
+            >
+              <TelegramIcon size={32} round />
+            </TelegramShareButton>
+          </div>
+
+          <p className="text-sm text-white/60">💎 Lighting +92%</p>
+          <p className="text-sm text-white/60">↻ Drag to compare</p>
+        </>
+      ) : (
+        <p className="text-white/60">
+          Select a submission to preview the comparison.
+        </p>
+      )}
 
       <canvas ref={canvasRef} className="hidden" />
     </section>
