@@ -1,50 +1,83 @@
-// src/components/EngagementPanel.jsx
+import { useRef } from "react";
 import { FaInstagram, FaTiktok } from "react-icons/fa";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
+import CompareSlider from "./CompareSlider";
 
-export default function EngagementPanel() {
+export default function EngagementPanel({ before, after }) {
+  const canvasRef = useRef(null);
+
+  const handleDownload = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    const beforeImg = new Image();
+    const afterImg = new Image();
+
+    beforeImg.crossOrigin = "anonymous";
+    afterImg.crossOrigin = "anonymous";
+
+    beforeImg.src = before;
+    afterImg.src = after;
+
+    beforeImg.onload = () => {
+      afterImg.onload = () => {
+        const width = beforeImg.width + afterImg.width;
+        const height = Math.max(beforeImg.height, afterImg.height);
+
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.drawImage(beforeImg, 0, 0);
+        ctx.drawImage(afterImg, beforeImg.width, 0);
+
+        const link = document.createElement("a");
+        link.download = "comparison.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      };
+    };
+  };
+
   return (
-    <section className="relative rounded-2xl backdrop-blur-md bg-white/5 border border-white/10 shadow-xl p-6 text-center">
-      <h2 className="text-3xl font-bold text-white tracking-tight mb-4">
-        Engagement
+    <section className="relative rounded-2xl backdrop-blur-md bg-white/5 border border-white/10 shadow-xl p-6 space-y-4 text-white text-center">
+      <h2 className="text-2xl font-bold tracking-wide mb-4">
+        CAMO COMMUNITY GALLERY
       </h2>
-      <p className="uppercase text-sm text-white/50 tracking-widest mb-4">
-        Camo Community Gallery
-      </p>
 
-      <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-lg">
-        <div className="flex">
-          <img src="/before.jpg" alt="Before" className="w-1/2 object-cover" />
-          <img src="/after.jpg" alt="After" className="w-1/2 object-cover" />
-        </div>
+      <CompareSlider before="public\before.jpg" after="public\after.jpg" />
 
-        <div className="absolute top-4 left-4 bg-white/10 text-white text-sm px-3 py-1 rounded-full flex items-center gap-2 backdrop-blur-md">
-          <span className="text-blue-400">💎</span> Lighting +92%
-        </div>
-
-        <div className="absolute bottom-2 w-full text-white text-sm">
-          <p className="bg-black/30 w-max mx-auto px-3 py-1 rounded-full">
-            Drag to compare
-          </p>
-        </div>
+      <div className="flex justify-center gap-4 mb-6">
+        <button
+          onClick={handleDownload}
+          className="bg-white/10 hover:bg-white/20 p-3 rounded-full"
+          title="Download Comparison"
+        >
+          <ArrowDownTrayIcon className="h-6 w-6" />
+        </button>
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-white/10 hover:bg-white/20 p-3 rounded-full"
+          title="Share on Instagram"
+        >
+          <FaInstagram className="h-6 w-6" />
+        </a>
+        <a
+          href="https://www.tiktok.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-white/10 hover:bg-white/20 p-3 rounded-full"
+          title="Share on TikTok"
+        >
+          <FaTiktok className="h-6 w-6" />
+        </a>
       </div>
 
-      <div className="flex justify-center gap-4 mt-6">
-        <button className="bg-white/10 text-white px-4 py-2 rounded-full hover:bg-white/20 flex items-center gap-2">
-          <FaInstagram />
-        </button>
-        <button className="bg-white/10 text-white px-4 py-2 rounded-full hover:bg-white/20 flex items-center gap-2">
-          <FaTiktok />
-        </button>
-        <button className="bg-white/10 text-white px-4 py-2 rounded-full hover:bg-white/20 flex items-center gap-2">
-          <ArrowDownTrayIcon className="w-4 h-4" />
-          Download
-        </button>
-      </div>
+      <p className="text-sm text-white/60">💎 Lighting +92%</p>
+      <p className="text-sm text-white/60">↻ Drag to compare</p>
 
-      <div className="mt-4 text-sm text-white/60 hover:text-white cursor-pointer transition">
-        <span className="inline-block rotate-90">↻</span> Try another comparison
-      </div>
+      <canvas ref={canvasRef} className="hidden" />
     </section>
   );
 }

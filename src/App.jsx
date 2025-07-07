@@ -17,7 +17,11 @@ function App() {
       <main className="max-w-5xl mx-auto px-4 py-8 space-y-12">
         <UploadForm onSubmit={handleNewSubmission} />
         <Gallery items={submissions} />
-        <EngagementPanel /> {/* 👈 nuevo panel agregado aquí */}
+        <EngagementPanel
+          before={submissions[0]?.before}
+          after={submissions[0]?.after}
+        />{" "}
+        {/* 👈 nuevo panel agregado aquí */}
       </main>
     </div>
   );
