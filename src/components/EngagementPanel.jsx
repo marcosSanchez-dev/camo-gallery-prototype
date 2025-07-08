@@ -17,8 +17,25 @@ import {
 export default function EngagementPanel({ entry }) {
   const canvasRef = useRef(null);
 
+  const getAfterImage = () => {
+    if (entry.autoEnhance && entry.enhanceResult?.adjustments) {
+      return {
+        url: entry.before,
+        filter: entry.enhanceResult.adjustments,
+      };
+    } else {
+      return {
+        url: entry.after,
+        filter: null,
+      };
+    }
+  };
+
   const handleDownload = () => {
-    if (!entry?.before || !entry?.after) return;
+    const { url: before } = { url: entry.before };
+    const { url: after, filter } = getAfterImage();
+
+    if (!before || !after) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -29,8 +46,8 @@ export default function EngagementPanel({ entry }) {
     beforeImg.crossOrigin = "anonymous";
     afterImg.crossOrigin = "anonymous";
 
-    beforeImg.src = entry.before;
-    afterImg.src = entry.after;
+    beforeImg.src = before;
+    afterImg.src = after;
 
     beforeImg.onload = () => {
       afterImg.onload = () => {
@@ -41,6 +58,11 @@ export default function EngagementPanel({ entry }) {
         canvas.height = height;
 
         ctx.drawImage(beforeImg, 0, 0);
+
+        if (filter) {
+          ctx.filter = buildCSSFilter(filter);
+        }
+
         ctx.drawImage(afterImg, beforeImg.width, 0);
 
         const link = document.createElement("a");
@@ -51,18 +73,30 @@ export default function EngagementPanel({ entry }) {
     };
   };
 
+  const buildCSSFilter = (adjustments) => {
+    const brightness = 1 + parseInt(adjustments?.brightness || "0", 10) / 100;
+    const contrast = 1 + parseInt(adjustments?.contrast || "0", 10) / 100;
+    const saturate =
+      1 + parseInt(adjustments?.colorCorrection || "0", 10) / 100;
+
+    return `brightness(${brightness}) contrast(${contrast}) saturate(${saturate})`;
+  };
+
+  const afterData = getAfterImage();
+
   return (
     <section className="relative rounded-2xl backdrop-blur-md bg-white/5 border border-white/10 shadow-xl p-6 space-y-4 text-white text-center">
       <h2 className="text-2xl font-bold tracking-wide mb-4">
         CAMO COMMUNITY GALLERY
       </h2>
 
-      {entry?.before && entry?.after ? (
+      {entry?.before && afterData?.url ? (
         <>
           <CompareSlider
             before={entry.before}
-            after={entry.after}
-            key={entry.before + entry.after}
+            after={afterData.url}
+            filter={afterData.filter}
+            key={entry.before + afterData.url}
           />
 
           <div className="flex justify-center flex-wrap gap-4 mb-6">
