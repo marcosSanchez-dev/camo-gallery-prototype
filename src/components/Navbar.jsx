@@ -1,14 +1,17 @@
-export default function Navbar() {
+export default function Navbar({ goToUpload, goToGallery }) {
   return (
-    <nav className="flex justify-between items-center px-6 py-4 bg-white/10 backdrop-blur border-b border-white/10 text-white">
-      <h1 className="text-2xl font-bold">Camo Gallery</h1>
-      <div className="space-x-4">
-        <a href="#" className="hover:underline">
+    <nav className="w-full px-6 py-4 bg-gradient-to-r from-[#1e293b] to-[#3b0764] flex justify-between items-center shadow-md text-white font-semibold">
+      <button onClick={goToGallery} className="text-xl hover:underline">
+        Camo Gallery
+      </button>
+
+      <div className="flex gap-6 text-sm">
+        <button onClick={goToGallery} className="hover:underline">
           Gallery
-        </a>
-        <a href="#" className="hover:underline">
+        </button>
+        <button onClick={goToUpload} className="hover:underline">
           Upload
-        </a>
+        </button>
       </div>
     </nav>
   );
