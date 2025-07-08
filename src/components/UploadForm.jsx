@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
+import { useState, useRef } from "react";
+import { ArrowUpTrayIcon, SparklesIcon } from "@heroicons/react/24/outline";
 
 export default function UploadForm({ onSubmit }) {
   const [before, setBefore] = useState(null);
@@ -7,11 +7,19 @@ export default function UploadForm({ onSubmit }) {
   const [social, setSocial] = useState("");
   const [autoEnhance, setAutoEnhance] = useState(true);
 
-  const handleImage = (e, type) => {
-    const file = e.target.files[0];
+  const beforeRef = useRef(null);
+  const afterRef = useRef(null);
+
+  const handleImage = (file, type) => {
     if (!file) return;
     const url = URL.createObjectURL(file);
     type === "before" ? setBefore(url) : setAfter(url);
+  };
+
+  const handleDrop = (e, type) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    handleImage(file, type);
   };
 
   const handleSubmit = (e) => {
@@ -26,9 +34,9 @@ export default function UploadForm({ onSubmit }) {
       after,
       social,
       autoEnhance,
-      likes: Math.floor(Math.random() * 1000), // para filtro "Popular"
-      score: Math.random().toFixed(2), // para filtro "Top Rated"
-      timestamp: Date.now(), // para filtro "Recent"
+      likes: Math.floor(Math.random() * 1000),
+      score: Math.random().toFixed(2),
+      timestamp: Date.now(),
     };
 
     onSubmit(newEntry);
@@ -36,6 +44,11 @@ export default function UploadForm({ onSubmit }) {
     setAfter(null);
     setSocial("");
     setAutoEnhance(true);
+  };
+
+  const getBorderClass = (image) => {
+    if (image) return "border-green-400";
+    return "border-red-400";
   };
 
   return (
@@ -59,7 +72,13 @@ export default function UploadForm({ onSubmit }) {
 
       <div className="grid grid-cols-2 gap-4">
         {/* BEFORE IMAGE */}
-        <label className="group flex flex-col items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl aspect-square cursor-pointer transition-all">
+        <label
+          onDrop={(e) => handleDrop(e, "before")}
+          onDragOver={(e) => e.preventDefault()}
+          className={`group flex flex-col items-center justify-center bg-white/10 hover:bg-white/20 border-2 ${getBorderClass(
+            before
+          )} rounded-2xl aspect-square cursor-pointer transition-all relative`}
+        >
           {before ? (
             <img
               src={before}
@@ -76,13 +95,20 @@ export default function UploadForm({ onSubmit }) {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => handleImage(e, "before")}
+            ref={beforeRef}
+            onChange={(e) => handleImage(e.target.files[0], "before")}
             className="hidden"
           />
         </label>
 
         {/* AFTER IMAGE */}
-        <label className="group flex flex-col items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl aspect-square cursor-pointer transition-all">
+        <label
+          onDrop={(e) => handleDrop(e, "after")}
+          onDragOver={(e) => e.preventDefault()}
+          className={`group flex flex-col items-center justify-center bg-white/10 hover:bg-white/20 border-2 ${getBorderClass(
+            after
+          )} rounded-2xl aspect-square cursor-pointer transition-all relative`}
+        >
           {after ? (
             <img
               src={after}
@@ -99,13 +125,15 @@ export default function UploadForm({ onSubmit }) {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => handleImage(e, "after")}
+            ref={afterRef}
+            onChange={(e) => handleImage(e.target.files[0], "after")}
             className="hidden"
           />
         </label>
       </div>
 
-      <div className="flex items-center justify-between">
+      {/* TOGGLE ENHANCE */}
+      <div className="flex items-center justify-between relative">
         <span className="text-white/80">Apply Camo Auto-Enhance</span>
         <label className="relative inline-flex items-center cursor-pointer">
           <input
@@ -117,6 +145,14 @@ export default function UploadForm({ onSubmit }) {
           <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:bg-cyan-500 transition-all"></div>
           <div className="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full transition-transform transform peer-checked:translate-x-full"></div>
         </label>
+
+        {/* Badge visual */}
+        {autoEnhance && (
+          <span className="absolute -right-28 text-sm text-cyan-300 flex items-center gap-1">
+            <SparklesIcon className="w-4 h-4" />
+            Enhanced!
+          </span>
+        )}
       </div>
 
       <button
