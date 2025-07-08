@@ -1,6 +1,21 @@
 export default function GalleryCard({ data, onClick }) {
-  const { before, after, social, likes } = data;
+  const { before, after, social, likes, autoEnhance, enhanceResult } = data;
   const views = Math.floor((likes || 0) * 3.5 + 100); // Simula views como 3.5x likes + base
+
+  const adjustments = enhanceResult?.adjustments;
+
+  const filterStyle =
+    autoEnhance && adjustments
+      ? {
+          filter: `
+            brightness(${1 + parseInt(adjustments.brightness || "0", 10) / 100})
+            contrast(${1 + parseInt(adjustments.contrast || "0", 10) / 100})
+            saturate(${
+              1 + parseInt(adjustments.colorCorrection || "0", 10) / 100
+            })
+          `,
+        }
+      : undefined;
 
   return (
     <div
@@ -17,6 +32,7 @@ export default function GalleryCard({ data, onClick }) {
           src={after}
           alt="After"
           className="w-full aspect-square object-cover rounded-b-xl -mt-1"
+          style={filterStyle}
         />
       </div>
 
