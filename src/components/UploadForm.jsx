@@ -1,50 +1,69 @@
-import { useState, useEffect } from "react";
-import { ArrowUpTrayIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
+import { enhanceWithAI } from "../utils/camoEnhanceAI";
 
 export default function UploadForm({ onSubmit }) {
-  const [baseImage, setBaseImage] = useState(null);
+  const [before, setBefore] = useState(null);
   const [social, setSocial] = useState("");
-  const [autoEnhance, setAutoEnhance] = useState(true);
-  const [enhancedPreview, setEnhancedPreview] = useState(null);
+  const [autoEnhance, setAutoEnhance] = useState(false);
+  const [enhanceLoading, setEnhanceLoading] = useState(false);
+  const [enhanceResult, setEnhanceResult] = useState(null);
 
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
-    setBaseImage(url);
+    setBefore(url);
   };
 
-  useEffect(() => {
-    if (autoEnhance && baseImage) {
-      // Simular generación de imagen mejorada con un filtro visual
-      setEnhancedPreview(baseImage + "#enhanced");
-    } else {
-      setEnhancedPreview(null);
+  const handleToggleEnhance = async () => {
+    if (!before) {
+      alert("Please upload a 'before' image first.");
+      return;
     }
-  }, [autoEnhance, baseImage]);
+    setAutoEnhance(true);
+    setEnhanceLoading(true);
+    const result = await enhanceWithAI({ imageName: "Living Room 1" });
+    setEnhanceResult(result);
+    setEnhanceLoading(false);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!baseImage || (autoEnhance && !enhancedPreview)) {
-      alert("Please upload an image to compare.");
+    if (!before) {
+      alert("Please upload an image.");
       return;
     }
 
     const newEntry = {
-      before: baseImage,
-      after: enhancedPreview || baseImage,
+      before,
+      after: before,
       social,
       autoEnhance,
+      enhanceResult,
       likes: Math.floor(Math.random() * 1000),
       score: Math.random().toFixed(2),
       timestamp: Date.now(),
     };
 
     onSubmit(newEntry);
-    setBaseImage(null);
-    setEnhancedPreview(null);
+    setBefore(null);
     setSocial("");
-    setAutoEnhance(true);
+    setAutoEnhance(false);
+    setEnhanceResult(null);
+  };
+
+  const getEnhanceFilter = () => {
+    if (!enhanceResult || !enhanceResult.adjustments) return "none";
+
+    const brightness =
+      1 + parseInt(enhanceResult.adjustments.brightness || "0") / 100;
+    const contrast =
+      1 + parseInt(enhanceResult.adjustments.contrast || "0") / 100;
+    const saturate =
+      1 + parseInt(enhanceResult.adjustments.colorCorrection || "0") / 100;
+
+    return `brightness(${brightness}) contrast(${contrast}) saturate(${saturate})`;
   };
 
   return (
@@ -56,33 +75,30 @@ export default function UploadForm({ onSubmit }) {
         Upload Your Comparison
       </h2>
 
-      <input
-        type="text"
-        value={social}
-        onChange={(e) => setSocial(e.target.value)}
-        placeholder="@socialhandle (optional)"
-        className="w-full bg-white/10 text-white placeholder-white/40 px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-      />
+      <div>
+        <input
+          type="text"
+          value={social}
+          onChange={(e) => setSocial(e.target.value)}
+          placeholder="@socialhandle (optional)"
+          className="w-full bg-white/10 text-white placeholder-white/40 px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+        />
+      </div>
 
-      {/* Imagen base + vista previa */}
       <div className="grid grid-cols-2 gap-4">
-        {/* Before */}
-        <label
-          className={`group flex flex-col items-center justify-center bg-white/10 hover:bg-white/20 border ${
-            !baseImage ? "border-red-500" : "border-green-500"
-          } rounded-2xl aspect-square cursor-pointer transition-all`}
-        >
-          {baseImage ? (
+        {/* BEFORE IMAGE */}
+        <label className="group flex flex-col items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl aspect-square cursor-pointer transition-all">
+          {before ? (
             <img
-              src={baseImage}
+              src={before}
               alt="Before"
               className="object-cover rounded-2xl w-full h-full"
             />
           ) : (
             <div className="flex flex-col items-center text-sm text-white/60">
               <ArrowUpTrayIcon className="w-6 h-6 mb-1" />
-              <span>Upload Image</span>
-              <span className="text-xs mt-1">Original version</span>
+              <span>Before</span>
+              <span className="text-xs mt-1">Upload dim lighting</span>
             </div>
           )}
           <input
@@ -93,22 +109,20 @@ export default function UploadForm({ onSubmit }) {
           />
         </label>
 
-        {/* After (simulado si Enhance activo) */}
-        <div className="relative group bg-white/10 border border-white/20 rounded-2xl aspect-square flex items-center justify-center overflow-hidden">
-          {enhancedPreview ? (
+        {/* AFTER IMAGE (enhanced preview) */}
+        <div className="flex flex-col items-center justify-center bg-white/10 border border-white/20 rounded-2xl aspect-square overflow-hidden">
+          {before ? (
             <img
-              src={baseImage}
-              alt="Enhanced"
-              className="object-cover w-full h-full rounded-2xl brightness-110 contrast-110 saturate-150"
+              src={before}
+              alt="After (Enhanced)"
+              className="object-cover rounded-2xl w-full h-full"
+              style={{ filter: autoEnhance ? getEnhanceFilter() : "none" }}
             />
           ) : (
-            <div className="text-white/40 text-sm text-center">
-              Auto-Enhance disabled
-            </div>
-          )}
-          {autoEnhance && (
-            <div className="absolute top-2 right-2 text-xs bg-cyan-500 text-white px-2 py-1 rounded-full shadow">
-              Enhanced!
+            <div className="flex flex-col items-center text-sm text-white/60">
+              <ArrowUpTrayIcon className="w-6 h-6 mb-1" />
+              <span>After</span>
+              <span className="text-xs mt-1">Auto-enhanced preview</span>
             </div>
           )}
         </div>
@@ -116,17 +130,34 @@ export default function UploadForm({ onSubmit }) {
 
       <div className="flex items-center justify-between">
         <span className="text-white/80">Apply Camo Auto-Enhance</span>
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            className="sr-only peer"
-            checked={autoEnhance}
-            onChange={() => setAutoEnhance(!autoEnhance)}
-          />
-          <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:bg-cyan-500 transition-all"></div>
-          <div className="absolute left-0.5 top-0.5 bg-white w-5 h-5 rounded-full transition-transform transform peer-checked:translate-x-full"></div>
-        </label>
+        <button
+          type="button"
+          disabled={enhanceLoading || !before}
+          onClick={handleToggleEnhance}
+          className="px-4 py-2 text-sm bg-cyan-600 hover:bg-cyan-700 rounded-xl disabled:opacity-50"
+        >
+          {enhanceLoading
+            ? "Enhancing..."
+            : autoEnhance
+            ? "Enhanced"
+            : "Enhance"}
+        </button>
       </div>
+
+      {enhanceResult?.adjustments && (
+        <div className="bg-white/10 p-4 rounded-xl text-sm text-white/80">
+          <p className="mb-2 font-semibold text-white">
+            Suggested Adjustments:
+          </p>
+          <ul className="list-disc list-inside space-y-1">
+            {Object.entries(enhanceResult.adjustments).map(([key, value]) => (
+              <li key={key}>
+                <strong>{key}:</strong> {value}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <button
         type="submit"
