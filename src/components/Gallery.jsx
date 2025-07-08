@@ -1,6 +1,25 @@
+import { useState } from "react";
 import GalleryCard from "./GalleryCard";
 
-export default function Gallery({ items = [], onSelect }) {
+export default function Gallery({ items = [], onSelect, onUploadClick }) {
+  const [filter, setFilter] = useState("recent");
+
+  const getSortedItems = () => {
+    switch (filter) {
+      case "popular":
+        return [...items].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+      case "top":
+        return [...items].sort((a, b) => (b.score || 0) - (a.score || 0));
+      case "recent":
+      default:
+        return [...items].sort(
+          (a, b) => (b.timestamp || 0) - (a.timestamp || 0)
+        );
+    }
+  };
+
+  const sortedItems = getSortedItems();
+
   return (
     <section className="relative rounded-2xl backdrop-blur-md bg-white/5 border border-white/10 shadow-xl p-6">
       <div className="flex justify-between items-center mb-6">
@@ -8,25 +27,31 @@ export default function Gallery({ items = [], onSelect }) {
           Discovery
         </h2>
         <div className="flex gap-2 text-sm">
-          <button className="px-3 py-1 rounded-full bg-white/10 text-white hover:bg-white/20">
-            Popular
-          </button>
-          <button className="px-3 py-1 rounded-full bg-white/10 text-white hover:bg-white/20">
-            Recent
-          </button>
-          <button className="px-3 py-1 rounded-full bg-white/10 text-white hover:bg-white/20">
-            Top Rated
-          </button>
+          {["popular", "recent", "top"].map((f) => (
+            <button
+              key={f}
+              className={`px-3 py-1 rounded-full transition-all ${
+                filter === f ? "bg-white/30 font-semibold" : "bg-white/10"
+              } hover:bg-white/20 text-white`}
+              onClick={() => setFilter(f)}
+            >
+              {f === "popular"
+                ? "Popular"
+                : f === "recent"
+                ? "Recent"
+                : "Top Rated"}
+            </button>
+          ))}
         </div>
       </div>
 
-      {items.length === 0 ? (
+      {sortedItems.length === 0 ? (
         <p className="text-white/50 text-center">
           No submissions yet. Be the first to share your transformation!
         </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((item, index) => (
+          {sortedItems.map((item, index) => (
             <GalleryCard
               key={index}
               data={item}
@@ -35,6 +60,15 @@ export default function Gallery({ items = [], onSelect }) {
           ))}
         </div>
       )}
+
+      <div className="text-center mt-8">
+        <button
+          onClick={onUploadClick}
+          className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full text-white text-lg shadow-md transition-all"
+        >
+          Upload Your Comparison
+        </button>
+      </div>
     </section>
   );
 }

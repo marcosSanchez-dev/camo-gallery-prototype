@@ -20,7 +20,17 @@ export default function UploadForm({ onSubmit }) {
       alert("Please upload both images.");
       return;
     }
-    const newEntry = { before, after, social, autoEnhance };
+
+    const newEntry = {
+      before,
+      after,
+      social,
+      autoEnhance,
+      likes: Math.floor(Math.random() * 1000), // para filtro "Popular"
+      score: Math.random().toFixed(2), // para filtro "Top Rated"
+      timestamp: Date.now(), // para filtro "Recent"
+    };
+
     onSubmit(newEntry);
     setBefore(null);
     setAfter(null);
