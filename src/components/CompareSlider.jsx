@@ -1,6 +1,12 @@
 import ReactCompareImage from "react-compare-image";
 
-export default function CompareSlider({ before, after, filter }) {
+export default function CompareSlider({
+  before,
+  after,
+  filter,
+  sliderPercentage = 0.5,
+  setSliderPercentage = () => {},
+}) {
   if (!before || !after) return null;
 
   const rightImageStyle = filter
@@ -21,7 +27,8 @@ export default function CompareSlider({ before, after, filter }) {
         rightImageCss={rightImageStyle}
         sliderLineColor="#ffffff"
         handleSize={40}
-        sliderPositionPercentage={0.5}
+        sliderPositionPercentage={sliderPercentage}
+        onSliderPositionChange={setSliderPercentage}
       />
     </div>
   );

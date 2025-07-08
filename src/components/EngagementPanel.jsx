@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FaInstagram, FaTiktok, FaShareAlt } from "react-icons/fa";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import CompareSlider from "./CompareSlider";
@@ -16,6 +16,7 @@ import {
 
 export default function EngagementPanel({ entry }) {
   const canvasRef = useRef(null);
+  const [sliderPercentage, setSliderPercentage] = useState(0.5);
 
   const getAfterImage = () => {
     if (entry.autoEnhance && entry.enhanceResult?.adjustments) {
@@ -29,6 +30,15 @@ export default function EngagementPanel({ entry }) {
         filter: null,
       };
     }
+  };
+
+  const buildCSSFilter = (adjustments) => {
+    const brightness = 1 + parseInt(adjustments?.brightness || "0", 10) / 100;
+    const contrast = 1 + parseInt(adjustments?.contrast || "0", 10) / 100;
+    const saturate =
+      1 + parseInt(adjustments?.colorCorrection || "0", 10) / 100;
+
+    return `brightness(${brightness}) contrast(${contrast}) saturate(${saturate})`;
   };
 
   const handleDownload = () => {
@@ -51,19 +61,35 @@ export default function EngagementPanel({ entry }) {
 
     beforeImg.onload = () => {
       afterImg.onload = () => {
-        const width = beforeImg.width + afterImg.width;
-        const height = Math.max(beforeImg.height, afterImg.height);
+        const width = beforeImg.width;
+        const height = beforeImg.height;
 
         canvas.width = width;
         canvas.height = height;
 
-        ctx.drawImage(beforeImg, 0, 0);
+        const splitX = Math.floor(width * sliderPercentage);
 
+        // Left side from before
+        ctx.drawImage(beforeImg, 0, 0, splitX, height, 0, 0, splitX, height);
+
+        // Right side from after (with optional filter)
         if (filter) {
           ctx.filter = buildCSSFilter(filter);
+        } else {
+          ctx.filter = "none";
         }
 
-        ctx.drawImage(afterImg, beforeImg.width, 0);
+        ctx.drawImage(
+          afterImg,
+          splitX,
+          0,
+          width - splitX,
+          height,
+          splitX,
+          0,
+          width - splitX,
+          height
+        );
 
         const link = document.createElement("a");
         link.download = "comparison.png";
@@ -71,15 +97,6 @@ export default function EngagementPanel({ entry }) {
         link.click();
       };
     };
-  };
-
-  const buildCSSFilter = (adjustments) => {
-    const brightness = 1 + parseInt(adjustments?.brightness || "0", 10) / 100;
-    const contrast = 1 + parseInt(adjustments?.contrast || "0", 10) / 100;
-    const saturate =
-      1 + parseInt(adjustments?.colorCorrection || "0", 10) / 100;
-
-    return `brightness(${brightness}) contrast(${contrast}) saturate(${saturate})`;
   };
 
   const afterData = getAfterImage();
@@ -96,6 +113,8 @@ export default function EngagementPanel({ entry }) {
             before={entry.before}
             after={afterData.url}
             filter={afterData.filter}
+            sliderPercentage={sliderPercentage}
+            setSliderPercentage={setSliderPercentage}
             key={entry.before + afterData.url}
           />
 
