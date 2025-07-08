@@ -19,6 +19,8 @@ export default function EngagementPanel({ entry }) {
   const [sliderPercentage, setSliderPercentage] = useState(0.5);
 
   const getAfterImage = () => {
+    if (!entry) return { url: null, filter: null };
+
     if (entry.autoEnhance && entry.enhanceResult?.adjustments) {
       return {
         url: entry.before,
