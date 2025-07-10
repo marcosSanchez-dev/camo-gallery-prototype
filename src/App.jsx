@@ -4,9 +4,10 @@ import Gallery from "./components/Gallery";
 import UploadForm from "./components/UploadForm";
 import EngagementPanel from "./components/EngagementPanel";
 import SceneWrapper from "./components/SceneWrapper"; // Importa el nuevo wrapper animado
+import mockSubmissions from "./mockSubmissions";
 
 function App() {
-  const [submissions, setSubmissions] = useState([]);
+  const [submissions, setSubmissions] = useState(mockSubmissions);
   const [selectedForCompare, setSelectedForCompare] = useState(null);
   const [currentScene, setCurrentScene] = useState("gallery");
 
