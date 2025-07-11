@@ -59,7 +59,15 @@ Here’s a quick walkthrough of how users interact with the gallery app:
 ---
 
 
+### 🎥 <a href="https://drive.google.com/file/d/1L9F-jOLDZkjxul2MoOniiIP1JwLrkrFS/view?usp=sharing" target="_blank">Video Walkthrough</a>
 
+<p align="center" style="background:white">
+  <a href="https://drive.google.com/file/d/1L9F-jOLDZkjxul2MoOniiIP1JwLrkrFS/view?usp=sharing" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/0/375.png" alt="Video Walkthrough" width="120" alt="Video Walkthrough"/>
+  </a>
+</p>
+
+<sub>Click the image to watch a quick demonstration of the full experience.</sub>
 
 ---
 
