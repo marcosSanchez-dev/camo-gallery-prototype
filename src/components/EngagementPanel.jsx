@@ -187,7 +187,7 @@ export default function EngagementPanel({ entry, onBack }) {
       {/* Botón de regreso */}
       <button
         onClick={onBack}
-        className="absolute top-0 left-6 flex items-center gap-2 text-white/70 hover:text-white transition-colors group z-10"
+        className="absolute -top-2 left-6 flex items-center gap-2 text-white/70 hover:text-white transition-colors group z-10"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
