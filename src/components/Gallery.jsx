@@ -22,6 +22,16 @@ export default function Gallery({ items = [], onSelect, onUploadClick }) {
 
   return (
     <section className="relative rounded-2xl backdrop-blur-md bg-white/5 border border-white/10 shadow-xl p-6">
+      {/* Botón de upload arriba */}
+      <div className="text-center mb-6">
+        <button
+          onClick={onUploadClick}
+          className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 hover:opacity-90 rounded-full text-white text-lg shadow-md transition-all"
+        >
+          Upload Your Comparison
+        </button>
+      </div>
+
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-white tracking-tight">
           Discovery
@@ -60,15 +70,6 @@ export default function Gallery({ items = [], onSelect, onUploadClick }) {
           ))}
         </div>
       )}
-
-      <div className="text-center mt-8">
-        <button
-          onClick={onUploadClick}
-          className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full text-white text-lg shadow-md transition-all"
-        >
-          Upload Your Comparison
-        </button>
-      </div>
     </section>
   );
 }

@@ -75,6 +75,20 @@ export default function UploadForm({ onSubmit, onCancel }) {
     }
   };
 
+  const resetForm = () => {
+    setBefore(null);
+    setSocial("");
+    setAutoEnhance(false);
+    setEnhanceLoading(false);
+    setEnhanceResult(null);
+    setEnhancedImage(null);
+  };
+
+  const handleCancel = () => {
+    resetForm();
+    onCancel();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!before) {
@@ -96,6 +110,7 @@ export default function UploadForm({ onSubmit, onCancel }) {
     };
 
     onSubmit(newEntry);
+    resetForm();
   };
 
   return (
@@ -233,7 +248,7 @@ export default function UploadForm({ onSubmit, onCancel }) {
       <div className="flex gap-3">
         <button
           type="button"
-          onClick={onCancel}
+          onClick={handleCancel} // Usar handleCancel en lugar de onCancel
           className="flex-1 bg-white/5 hover:bg-white/10 text-white font-medium py-3 rounded-xl transition-all"
         >
           Cancel

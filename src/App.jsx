@@ -5,6 +5,7 @@ import UploadForm from "./components/UploadForm";
 import EngagementPanel from "./components/EngagementPanel";
 import SceneWrapper from "./components/SceneWrapper"; // Importa el nuevo wrapper animado
 import mockSubmissions from "./mockSubmissions";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const [submissions, setSubmissions] = useState(mockSubmissions);
@@ -30,24 +31,26 @@ function App() {
       <Navbar goToUpload={goToUpload} goToGallery={goToGallery} />
 
       <main className="relative max-w-5xl mx-auto px-4 py-8 min-h-[600px] overflow-hidden">
-        {/* ESCENA 1: GALLERY */}
-        <SceneWrapper isActive={currentScene === "gallery"}>
-          <Gallery
-            items={submissions}
-            onSelect={handleSelectCard}
-            onUploadClick={goToUpload}
-          />
-        </SceneWrapper>
+        <AnimatePresence mode="wait">
+          {/* ESCENA 1: GALLERY */}
+          <SceneWrapper key="gallery" isActive={currentScene === "gallery"}>
+            <Gallery
+              items={submissions}
+              onSelect={handleSelectCard}
+              onUploadClick={goToUpload}
+            />
+          </SceneWrapper>
 
-        {/* ESCENA 2: UPLOAD */}
-        <SceneWrapper isActive={currentScene === "upload"}>
-          <UploadForm onSubmit={handleNewSubmission} onCancel={goToGallery} />
-        </SceneWrapper>
+          {/* ESCENA 2: UPLOAD */}
+          <SceneWrapper key="upload" isActive={currentScene === "upload"}>
+            <UploadForm onSubmit={handleNewSubmission} onCancel={goToGallery} />
+          </SceneWrapper>
 
-        {/* ESCENA 3: COMPARADOR */}
-        <SceneWrapper isActive={currentScene === "compare"}>
-          <EngagementPanel entry={selectedForCompare} onBack={goToGallery} />
-        </SceneWrapper>
+          {/* ESCENA 3: COMPARADOR */}
+          <SceneWrapper key="compare" isActive={currentScene === "compare"}>
+            <EngagementPanel entry={selectedForCompare} onBack={goToGallery} />
+          </SceneWrapper>
+        </AnimatePresence>
       </main>
     </div>
   );

@@ -204,6 +204,7 @@ export default function EngagementPanel({ entry, onBack }) {
           />
 
           <div className="flex flex-col items-center mb-6">
+            <p className="text-sm text-white/60 mb-6 mt-3">↻ Drag to compare</p>
             <div className="flex flex-wrap justify-center gap-3 mb-4">
               {/* Descargar comparación */}
               <button
@@ -331,7 +332,6 @@ export default function EngagementPanel({ entry, onBack }) {
             <span>❤️ {entry.likes ?? 0} likes</span>
             <span>👁️ {entry.views ?? 0} views</span>
           </div>
-          <p className="text-sm text-white/60">↻ Drag to compare</p>
         </>
       ) : (
         <p className="text-white/60">
