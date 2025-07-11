@@ -1,6 +1,21 @@
 # 🎬 Camo Community Gallery – Cinematic Experience
 
-## 🌟 Introduction
+
+## 📘 About This Prototype
+
+This take-home prototype was built as part of a technical assessment for the Camo team.
+
+The goal was to design and implement a small gallery app where users can:
+
+- Browse before/after comparisons submitted by the community  
+- Upload their own comparison with social handles  
+- Visually compare images (slider demo)  
+- Imagine how this would integrate with Camo Studio and export to social media  
+
+In this README, you'll find my design reasoning, tech stack, user experience ideas, and visual references for a cinematic, community-powered platform.
+
+
+## 🌟 Goal of This Prototype
 
 This project is a technical assessment for **Camo**, showcasing a premium cinematic gallery experience where users can:
 
@@ -10,10 +25,6 @@ This project is a technical assessment for **Camo**, showcasing a premium cinema
 - Share their creations socially  
 
 The prototype implements all core requirements while delivering a **stunning cinematic UI** inspired by high-end product renders and **8K cinematic aesthetics**.
-
-<p align="center">
-<img src="src/assets/user_flow.png" alt="User Flow" width="700" />
-</p>
 
 ---
 
@@ -82,6 +93,17 @@ A cinematic interface for submitting Before/After comparisons and social handles
 
 Users can visually compare the results using a slider, then share or download their enhanced creations.
 
+---
+
+## 🧠 Comparison Interaction: My Approach
+
+If implemented, I would use a comparison slider component that overlays the "before" and "after" images. Options I considered:
+
+- **Library-based**: use [`react-compare-image`](https://www.npmjs.com/package/react-compare-image) for a simple vertical slider  
+- **Custom canvas-based solution**: to allow blending modes or animated transitions  
+- **Touch support**: drag-based on mobile, with a toggle button fallback  
+
+This interaction gives immediate feedback and emotional impact — key for a community product.
 
 ---
 
@@ -140,6 +162,17 @@ graph LR
 ```
 ---
 
+## 🔗 Camo Studio Integration Ideas
+
+To connect this community gallery with Camo Studio, I envision:
+
+- A **"Send to Gallery"** export button inside Camo Studio
+- Automatic generation of Before/After layouts with branding
+- Smart presets recognition: the gallery could display badges like _“Lighting +92%”_ if they match known enhancements
+- Users could also **remix** community posts by re-editing the "before" image with different presets
+
+
+---
 ## 🧭 Project Structure
 
 ```plaintext
@@ -158,19 +191,18 @@ src/
 └── styles/                  # Global cinematic effects
 ```
 
-<p align="center">
-<img src="src/assets/wireframe_1.png" alt="wireframe" width="400" />
-</p>
-
 ---
 
 ## 🚀 Getting Started
 
 Install dependencies:
+```bash
 npm install
-
+```
 Start development server:
+```bash
 npm run dev
+```
 
 Then open the cinematic gallery at:
 http://localhost:5173
@@ -195,10 +227,23 @@ The cinematic design language creates **emotional connection**, while the techni
 
 > The premium aesthetic positions **Camo** as the high-end solution for visual professionals, while maintaining accessibility for casual creators.
 
+
+---
+
+## 📝 Appendix: Early Wireframes (Day 1 Sketches)
+
+These early visuals represent the initial planning phase, where I outlined the user journey, upload form structure, and the overall interaction flow.
+
 <p align="center">
-<img src="src/assets/wireframe_2.png" alt="wireframe" width="400" />
+  <img src="src/assets/user_flow.png" alt="User Flow" width="420" />
 </p>
 
+<p align="center">
+  <img src="src/assets/wireframe_1.png" alt="Wireframe 1" width="360" />
+  <img src="src/assets/wireframe_2.png" alt="Wireframe 2" width="360" />
+</p>
+
+---
 
 _Marcos Sanchez_  
 [LinkedIn](https://www.linkedin.com/in/marcos-web-dev/) • [Web](https://www.illuminu.dev/)
