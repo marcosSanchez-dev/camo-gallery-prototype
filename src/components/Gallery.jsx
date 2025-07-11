@@ -21,20 +21,9 @@ export default function Gallery({ items = [], onSelect, onUploadClick }) {
   const sortedItems = getSortedItems();
 
   return (
-    <section className="relative rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#1e293b] p-6 border border-white/10 shadow-[0_0_30px_rgba(99,102,241,0.3)] overflow-hidden">
+    <section className="relative rounded-2xl bg-gradient-to-br from-[#0f172a] to-[#1e293b] p-6 border border-white/10 shadow-[0_0_30px_rgba(99,102,241,0.3)] overflow-hidden min-h-[600px]">
       {/* Rim light effect */}
       <div className="absolute inset-0 rounded-2xl pointer-events-none shadow-[inset_0_0_10px_rgba(192,132,252,0.5)]" />
-
-      {/* Botón de upload */}
-      <div className="text-center mb-8 relative z-10">
-        <button
-          onClick={onUploadClick}
-          className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full text-white text-lg font-medium tracking-wide shadow-lg hover:shadow-[0_0_20px_rgba(139,92,246,0.7)] transition-all duration-300 transform hover:scale-[1.02] group"
-        >
-          <span className="relative z-10">Upload Your Comparison</span>
-          <span className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </button>
-      </div>
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 relative z-10">
         <div>
@@ -76,7 +65,7 @@ export default function Gallery({ items = [], onSelect, onUploadClick }) {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 pb-16">
           {sortedItems.map((item, index) => (
             <GalleryCard
               key={index}
@@ -87,6 +76,29 @@ export default function Gallery({ items = [], onSelect, onUploadClick }) {
           ))}
         </div>
       )}
+
+      {/* Botón flotante de upload */}
+      <div className="fixed bottom-6 right-6 z-20">
+        <button
+          onClick={onUploadClick}
+          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full text-white text-lg font-medium tracking-wide shadow-lg hover:shadow-[0_0_25px_rgba(139,92,246,0.8)] transition-all duration-300 transform hover:scale-[1.03] group"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-white"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <span className="relative z-10">Upload</span>
+          <span className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </button>
+      </div>
 
       {/* Efecto de partículas sutiles */}
       <div className="absolute inset-0 pointer-events-none">
