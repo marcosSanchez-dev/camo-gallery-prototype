@@ -11,7 +11,9 @@ This project is a technical assessment for **Camo**, showcasing a premium cinema
 
 The prototype implements all core requirements while delivering a **stunning cinematic UI** inspired by high-end product renders and **8K cinematic aesthetics**.
 
----
+<p align="center">
+<img src="src/assets/user_flow.png" alt="User Flow" width="700" />
+</p>
 
 ---
 
@@ -116,6 +118,10 @@ src/
 └── styles/                  # Global cinematic effects
 ```
 
+<p align="center">
+<img src="src/assets/wireframe_1.png" alt="wireframe" width="400" />
+</p>
+
 ---
 
 ## 🚀 Getting Started
@@ -148,6 +154,11 @@ The cinematic design language creates **emotional connection**, while the techni
   In-situ visualization of transformations
 
 > The premium aesthetic positions **Camo** as the high-end solution for visual professionals, while maintaining accessibility for casual creators.
+
+<p align="center">
+<img src="src/assets/wireframe_2.png" alt="wireframe" width="400" />
+</p>
+
 
 _Marcos Sanchez_  
 [LinkedIn](https://www.linkedin.com/in/marcos-web-dev/) • [Web](https://www.illuminu.dev/)
