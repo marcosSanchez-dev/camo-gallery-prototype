@@ -87,18 +87,18 @@ export default function UploadForm({ onSubmit, onCancel }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!before) {
-      alert("Please upload an image.");
+    if (!before || !enhancedImage) {
+      alert("Please complete the enhancement process first.");
       return;
     }
 
     const newEntry = {
       before,
-      after: autoEnhance ? enhancedImage : before,
-      enhancedImage: autoEnhance ? enhancedImage : null,
-      filter: autoEnhance ? null : "none",
+      after: enhancedImage,
+      enhancedImage,
+      filter: null,
       social,
-      autoEnhance,
+      autoEnhance: true,
       enhanceResult,
       likes: Math.floor(Math.random() * 1000),
       views: Math.floor(Math.random() * 1000 * 3.5 + 100),
@@ -173,8 +173,10 @@ export default function UploadForm({ onSubmit, onCancel }) {
                 <SparklesIcon className="w-8 h-8 text-white/70" />
               </div>
               <span className="text-lg font-medium text-white">After</span>
-              <span className="text-sm mt-2 text-white/60">
-                Enhanced result will appear here
+              <span className="text-sm mt-2 text-white/60 max-w-[80%] mx-auto">
+                {before
+                  ? "Click 'Enhance Now' to generate result"
+                  : "Upload a 'Before' image first"}
               </span>
               <div className="mt-6 w-16 h-1 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full" />
             </div>
@@ -266,9 +268,9 @@ export default function UploadForm({ onSubmit, onCancel }) {
 
         <button
           type="submit"
-          disabled={!before}
+          disabled={!enhancedImage}
           className={`flex-1 font-semibold text-lg py-3.5 rounded-xl transition-all duration-300 shadow-lg ${
-            !before
+            !enhancedImage
               ? "bg-gray-600/30 cursor-not-allowed text-white/40"
               : "bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.6)]"
           }`}
