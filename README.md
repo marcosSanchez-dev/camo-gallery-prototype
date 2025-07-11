@@ -17,6 +17,17 @@ The prototype implements all core requirements while delivering a **stunning cin
 
 ---
 
+### 🖼️ Full UX Snapshot
+
+<p align="center">
+  <img src="src/assets/ux-flow-overview.png" alt="UX Flow: Discovery → Creation → Engagement" width="720" />
+</p>
+
+An overview of the full Camo Gallery experience, from browsing community content to sharing enhanced creations.
+
+---
+
+
 ## ✨ Key Features Implemented
 
 ### 🟣 Discovery Phase
@@ -25,7 +36,17 @@ The prototype implements all core requirements while delivering a **stunning cin
 - Pinterest-style grid layout with before/after comparisons  
 - Interactive hover states showing engagement metrics  
 - Dynamic filtering (Popular, Recent, Top Rated)  
-- Floating **Upload** button for quick content creation  
+- Floating **Upload** button for quick content creation
+
+### 🖼️ Discovery UI Preview
+
+<p align="center">
+  <img src="src/assets/gallery-discovery-ui.png" alt="Gallery View with Filters" width="300" />
+</p>
+
+Users can explore Before/After cards using filters like Popular, Recent, and Top Rated.
+
+
 
 ### 🔵 Creation Phase
 
@@ -33,7 +54,17 @@ The prototype implements all core requirements while delivering a **stunning cin
 - AI-enhanced image processing simulation  
 - Real-time preview of enhancements  
 - Social handle integration  
-- Gradient-rich UI with glass effects  
+- Gradient-rich UI with glass effects
+
+### 🖼️ Upload UI (Creation Phase)
+
+<p align="center">
+  <img src="src/assets/upload-ui-panel.png" alt="Upload Form Cinematic" width="500" />
+</p>
+
+A cinematic interface for submitting Before/After comparisons and social handles.
+
+
 
 ### 🟢 Engagement Phase
 
@@ -41,7 +72,16 @@ The prototype implements all core requirements while delivering a **stunning cin
 - Social sharing to Instagram, TikTok, Facebook, etc.  
 - One-click download options (comparison/enhanced)  
 - Native Share API integration  
-- Premium metrics display with diamond icons  
+- Premium metrics display with diamond icons
+
+### 🖼️ Before/After Slider (Engagement)
+
+<p align="center">
+  <img src="src/assets/comparison-slider.png" alt="Before and After Comparison with Social Sharing" width="500" />
+</p>
+
+Users can visually compare the results using a slider, then share or download their enhanced creations.
+
 
 ---
 
