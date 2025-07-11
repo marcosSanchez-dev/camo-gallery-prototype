@@ -72,11 +72,14 @@ I've created a **cinematic UI experience** that aligns with **Camo's premium bra
 
 ## 🧩 Technical Stack
 
-| Category         | Technology               |
-|------------------|---------------------------|
-| Framework        | React 18                  |
-| Styling          | Ta
-
+| Category         | Technology                   |
+|------------------|-------------------------------|
+| Framework        | React 18                      |
+| Styling          | Tailwind CSS                  |
+| Animation        | Framer Motion                 |
+| Icons            | Heroicons, React Icons        |
+| Social Sharing   | react-share                   |
+| UI Effects       | Custom Canvas Processing      |
 
 ---
 
