@@ -334,7 +334,7 @@ http://localhost:5173
 
 ## ⚠️ Current Limitations
 
-While this prototype demonstrates the core interaction and UI design, some technical areas are intentionally mocked or left unimplemented for the scope of this assessment:
+While this prototype demonstrates the core interaction and UI design, some technical areas are intentionally mocked or left unimplemented for the scope of this project:
 
 - **No backend or database**: All data is stored in-memory and resets on page reload  
 - **No user authentication**: Social handles are collected but not linked to real users  
