@@ -78,8 +78,6 @@ Here’s a quick walkthrough of how users interact with the gallery app:
 
 ## 🌟 Goal of This Prototype
 
-This project is a technical assessment for **Camo**, showcasing a premium cinematic gallery experience where users can:
-
 - Browse before/after visual transformations  
 - Upload their own comparisons  
 - Experience dramatic visual enhancements  
