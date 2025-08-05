@@ -3,8 +3,6 @@
 
 ## 📘 About This Prototype
 
-This take-home prototype was built as part of a technical assessment for the Camo team.
-
 The goal was to design and implement a small gallery app where users can:
 
 - Browse before/after comparisons submitted by the community  
